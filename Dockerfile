@@ -18,7 +18,7 @@ RUN npm install --only=production
 # Copy local code to the container image.
 # COPY ./react-app/build ./react-app
 
-COPY ./react-app/dist ./react-app/dist
+COPY ./react-app/build ./react-app/build
 COPY ./server.js .
 
 # Run the web service on container startup.

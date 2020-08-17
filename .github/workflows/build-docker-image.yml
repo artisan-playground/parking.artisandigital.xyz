@@ -16,9 +16,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build vue-app
+      - name: Build artisan-parking
         run: |
-          pushd vue-app
+          pushd react-app
           yarn install
           yarn build
           popd
@@ -29,7 +29,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: 'nazt/xxz'
+          repository: 'trwfff/parking-artisan'
           tags: latest
           tag_with_ref: true
           tag_with_sha: true
