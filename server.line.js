@@ -53,31 +53,6 @@ const handleImageEvent = (event) => {
       messageSend.push(msg)
       console.log(string_data)
       return client.replyMessage(event.replyToken, { type: 'text', text: 'OK :)' })
-
-      //   request.post(
-      //     printUrl,
-      //     { form: { image_64: string_data } },
-
-      //     function (err, httpResponse, body) {
-      //       var readingMessage = {
-      //         type: 'text',
-      //         text: 'ปริ้นรูปแล้วน้าา',
-      //       }
-
-      //       var errorMessage = {
-      //         type: 'text',
-      //         text: 'เหมือนจะปริ้นไม่ไ้ดนะ',
-      //       }
-
-      //       if (!err) {
-      //         messageSend.push(readingMessage)
-      //         return client.replyMessage(event.replyToken, messageSend)
-      //       } else {
-      //         messageSend.push(errorMessage)
-      //         return client.replyMessage(event.replyToken, messageSend)
-      //       }
-      //     }
-      //   )
     })
 
     stream.on('error', (err) => {
