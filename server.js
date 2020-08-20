@@ -27,7 +27,7 @@ app.get('/api/version', (req, res) => {
   res.status(200).send(`${version}`)
 })
 
-app.get('/api/line/webhook', require('./server.line.js').webhook)
+app.post('/api/line/webhook', require('./server.line.js').webhook)
 
 const paths = app._router.stack.filter((v) => v.route).map((v) => v.route.path)
 
