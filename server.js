@@ -8,6 +8,12 @@ const version = pkg.version
 
 const app = express()
 
+const admin = require('firebase-admin')
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  databaseURL: 'https://parking.firebaseio.com',
+})
+
 //add other middleware
 
 app.use(express.static('react-app/build'))
