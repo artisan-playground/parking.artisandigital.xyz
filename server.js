@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-app.get('firebase', async (req, res) => {
+app.get('/firebase', async (req, res) => {
   let docRef1 = db.collection(`X`).doc(`XX`)
   await docRef1.set({ hello: 'world' })
   let docRef2 = db.collection('SENSORS').doc(`m-nat`)
