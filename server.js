@@ -27,24 +27,15 @@ app.get('/api/version', (req, res) => {
   res.status(200).send(`${version}`)
 })
 
-app.get('/api/test-cases', (req, res) => {
-  res.json([
-    {
-      name: '006 PORTAL - cancel an order',
-      fail: 0,
-      success: 10,
-      total: 10,
-    },
-    {
-      name: '007 PORTAL - cancel an order',
-      fail: 0,
-      success: 10,
-      total: 10,
-    },
-  ])
+app.get('/api/line/webhook', require('./server.line.js').webhook)
+
+const paths = app._router.stack.filter((v) => v.route).map((v) => v.route.path)
+
+paths.forEach((path, idx) => {
+  console.log(`[${idx}] -> ${path}`)
 })
 
+// console.log(process.env)
 //start app
 const port = process.env.PORT || 4000
-
 app.listen(port, () => console.log(`App is listening on port ${port}.`))

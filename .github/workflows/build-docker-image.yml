@@ -18,12 +18,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Build artisan-parking
         run: |
-          pushd react-app
-          yarn install
-          yarn build
-          popd
-          # ./build.sh
-          # docker build -t "$PROJECT_ID/$SERVICE_NAME:${GITHUB_SHA}" .
+          ./build.sh react-app
+        # docker build -t "$PROJECT_ID/$SERVICE_NAME:${GITHUB_SHA}" .
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
         with:
