@@ -25,6 +25,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
+const db = admin.firestore()
+const settings = { timestampsInSnapshots: true }
+db.settings(settings)
+
 app.get('/firebase', async (req, res) => {
   let docRef1 = db.collection(`X`).doc(`XX`)
   await docRef1.set({ hello: 'world' })
