@@ -2,8 +2,8 @@ const request = require('request')
 const line = require('@line/bot-sdk')
 
 const lineToken = {
-  channelAccessToken: process.env.channelAccessToken,
-  channelSecret: process.env.channelSecret,
+  channelAccessToken: process.env.channelAccessToken || 'fixme',
+  channelSecret: process.env.channelSecret || 'fixme',
 }
 
 const client = new line.Client(lineToken)
