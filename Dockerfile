@@ -19,7 +19,7 @@ RUN npm install --only=production
 # COPY ./react-app/build ./react-app
 
 COPY ./react-app/build ./react-app/build
-COPY ./server.js .
+COPY ./server*.js .
 
 # Run the web service on container startup.
 CMD [ "node", "server.js" ]
