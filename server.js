@@ -29,10 +29,9 @@ const db = admin.firestore()
 const settings = { timestampsInSnapshots: true }
 db.settings(settings)
 
-app.get('/firebase', async (req, res) => {
+app.get('/api/firebase/random', async (req, res) => {
   let docRef1 = db.collection(`X`).doc(`XX`)
-  await docRef1.set({ hello: 'world' })
-  let docRef2 = db.collection('SENSORS').doc(`m-nat`)
+  await docRef1.set({ hello: `world: ${new Date().getTime()}` })
   console.log(docRef1, docRef2)
   res.status(200).send('firebase !')
 })
