@@ -6,6 +6,8 @@ const lineToken = {
   channelSecret: process.env.channelSecret,
 }
 
+const client = new line.Client(lineToken)
+
 const fn = {}
 
 // app.get('/image', function (req, res) {
