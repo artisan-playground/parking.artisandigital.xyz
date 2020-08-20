@@ -48,34 +48,36 @@ const handleImageEvent = (event) => {
       }
       currentImage = body
 
-      var messageSend = []
+      const messageSend = [msg]
+      const string_data = body.toString('base64')
       messageSend.push(msg)
-      var string_data = body.toString('base64')
+      console.log(string_data)
+      return client.replyMessage(event.replyToken, 'Done :)')
 
-      request.post(
-        printUrl,
-        { form: { image_64: string_data } },
+      //   request.post(
+      //     printUrl,
+      //     { form: { image_64: string_data } },
 
-        function (err, httpResponse, body) {
-          var readingMessage = {
-            type: 'text',
-            text: 'ปริ้นรูปแล้วน้าา',
-          }
+      //     function (err, httpResponse, body) {
+      //       var readingMessage = {
+      //         type: 'text',
+      //         text: 'ปริ้นรูปแล้วน้าา',
+      //       }
 
-          var errorMessage = {
-            type: 'text',
-            text: 'เหมือนจะปริ้นไม่ไ้ดนะ',
-          }
+      //       var errorMessage = {
+      //         type: 'text',
+      //         text: 'เหมือนจะปริ้นไม่ไ้ดนะ',
+      //       }
 
-          if (!err) {
-            messageSend.push(readingMessage)
-            return client.replyMessage(event.replyToken, messageSend)
-          } else {
-            messageSend.push(errorMessage)
-            return client.replyMessage(event.replyToken, messageSend)
-          }
-        }
-      )
+      //       if (!err) {
+      //         messageSend.push(readingMessage)
+      //         return client.replyMessage(event.replyToken, messageSend)
+      //       } else {
+      //         messageSend.push(errorMessage)
+      //         return client.replyMessage(event.replyToken, messageSend)
+      //       }
+      //     }
+      //   )
     })
 
     stream.on('error', (err) => {
