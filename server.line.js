@@ -52,7 +52,11 @@ const handleImageEvent = (event) => {
       const string_data = body.toString('base64')
       messageSend.push(msg)
       console.log(string_data)
-      return client.replyMessage(event.replyToken, 'Done :)')
+      const readingMessage = {
+        type: 'text',
+        text: 'ปริ้นรูปแล้วน้าา',
+      }
+      return client.replyMessage(event.replyToken, readingMessage)
 
       //   request.post(
       //     printUrl,
