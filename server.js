@@ -25,11 +25,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-app.get('firebase', (req, res) => {
+app.get('firebase', async (req, res) => {
   let docRef1 = db.collection(`X`).doc(`XX`)
   await docRef1.set({ hello: 'world' })
   let docRef2 = db.collection('SENSORS').doc(`m-nat`)
-  res.status(200).send("firebase !");
+  console.log(docRef1, docRef2)
+  res.status(200).send('firebase !')
 })
 app.get('/api', (req, res) => {
   res.status(200).send(`Welcome to webapp-starter api v${version}`)
