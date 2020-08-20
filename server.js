@@ -32,7 +32,6 @@ db.settings(settings)
 app.get('/api/firebase/random', async (req, res) => {
   let docRef1 = db.collection(`X`).doc(`XX`)
   await docRef1.set({ hello: `world: ${new Date().getTime()}` })
-  console.log(docRef1, docRef2)
   res.status(200).send('firebase !')
 })
 app.get('/api', (req, res) => {
