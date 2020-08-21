@@ -35,12 +35,34 @@ app.get('/api/firebase/random', async (req, res) => {
   res.status(200).send('firebase !')
 })
 
-// app.get('/api/firebase/add', async (req, res) => {
-//   console.log(req)
-//   let docRef1 = db.collection(`User`).doc(`Doc`)
-//   await docRef1.set({ hello: req })
-//   res.status(200).send('firebase !')
-// })
+//List Car
+const dataArr = []
+app.get('/api/firebase/getCar', async (req, res) => {
+  db.collection('User')
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        dataArr.push({
+          id: doc.id,
+          data: doc.data(),
+        })
+        console.log(`${doc.id} => ${doc.data().name}`)
+      })
+      res.status(200).send(dataArr)
+    })
+})
+
+//Add Car
+app.post('/api/firebase/add', (req, res) => {
+  const dataArr = []
+  console.log('REQ-send', req.body.data.name)
+  console.log('firebase', req)
+  let docRef1 = db.collection(`User`).add({
+    name: `${req.body.data.name}`,
+    licensePlate: `${req.body.data.licensePlate}`,
+  })
+})
+
 app.get('/api', (req, res) => {
   res.status(200).send(`Welcome to webapp-starter api v${version}`)
 })
