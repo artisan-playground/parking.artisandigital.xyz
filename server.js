@@ -34,6 +34,13 @@ app.get('/api/firebase/random', async (req, res) => {
   await docRef1.set({ hello: `world: ${new Date().getTime()}` })
   res.status(200).send('firebase !')
 })
+
+// app.get('/api/firebase/add', async (req, res) => {
+//   console.log(req)
+//   let docRef1 = db.collection(`User`).doc(`Doc`)
+//   await docRef1.set({ hello: req })
+//   res.status(200).send('firebase !')
+// })
 app.get('/api', (req, res) => {
   res.status(200).send(`Welcome to webapp-starter api v${version}`)
 })
