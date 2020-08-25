@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
+import './AddCar.css'
 
 export default function AddCar() {
   useEffect(() => {
@@ -52,8 +53,14 @@ export default function AddCar() {
     setSubmitted(false)
   }
 
+  const style = {
+    '@media (min-width: 500px)': {
+      width: '120px',
+    },
+  }
+
   return (
-    <div>
+    <div className="page" style={style}>
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
