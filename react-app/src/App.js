@@ -5,6 +5,7 @@ import logo from './logo.svg'
 
 import './App.css'
 import AddCar from './components/AddCar'
+import ListCar from './components/ListCar'
 
 function App() {
   // useEffect(() => {
@@ -25,6 +26,9 @@ function App() {
   return (
     <div>
       <AddCar />
+      <div>
+        <ListCar />
+      </div>
     </div>
     // <div className="App">
     //   <header className="App-header">

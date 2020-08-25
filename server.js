@@ -36,17 +36,17 @@ app.get('/api/firebase/random', async (req, res) => {
 })
 
 //List Car
-const dataArr = []
+var dataArr = []
 app.get('/api/firebase/getCar', async (req, res) => {
   db.collection('User')
     .get()
     .then((querySnapshot) => {
+      dataArr = []
       querySnapshot.forEach((doc) => {
         dataArr.push({
           id: doc.id,
           data: doc.data(),
         })
-        console.log(`${doc.id} => ${doc.data().name}`)
       })
       res.status(200).send(dataArr)
     })
@@ -54,13 +54,11 @@ app.get('/api/firebase/getCar', async (req, res) => {
 
 //Add Car
 app.post('/api/firebase/add', (req, res) => {
-  const dataArr = []
-  console.log('REQ-send', req.body.data.name)
-  console.log('firebase', req)
   let docRef1 = db.collection(`User`).add({
     name: `${req.body.data.name}`,
     licensePlate: `${req.body.data.licensePlate}`,
   })
+  res.status(200).send('Success')
 })
 
 app.get('/api', (req, res) => {
