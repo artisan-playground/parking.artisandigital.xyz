@@ -1,7 +1,7 @@
 import React from 'react'
 import Radium, { StyleRoot } from 'radium'
 import './App.css'
-import AddCar from './components/AddCar'
+import AddCar from './components/AddCar/AddCar'
 import ListCar from './components/ListCar'
 
 function App() {

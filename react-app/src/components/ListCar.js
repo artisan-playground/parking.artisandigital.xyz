@@ -12,6 +12,7 @@ export default function CarsList() {
     axios
       .get('/api/firebase/getCar')
       .then((response) => {
+        console.log(response.data)
         setCars(response.data)
       })
       .catch((error) => {
@@ -26,7 +27,10 @@ export default function CarsList() {
           {cars &&
             cars.map((car, index) => (
               <li key={index}>
-                <p>ชื่อเจ้าของรถ</p> {car.data.name} ,เลขทะเบียนรถ {car.data.licensePlate}
+                <p>
+                  {index + 1} ชื่อเจ้าของรถ {car.data.name}{' '}
+                </p>
+                เลขทะเบียนรถ {car.data.licensePlate}
               </li>
             ))}
         </ul>

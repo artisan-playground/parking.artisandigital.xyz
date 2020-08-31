@@ -36,7 +36,7 @@ export default function AddCar() {
   }
 
   const style = {
-    '@media (min-width: 500px)': {
+    '@media (minWidth: 500px)': {
       width: '120px',
     },
   }
