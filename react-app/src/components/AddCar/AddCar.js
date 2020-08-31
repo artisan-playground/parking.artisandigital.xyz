@@ -1,28 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import './AddCar.css'
 
 export default function AddCar() {
-  useEffect(() => {
-    getListCar()
-  })
-
-  function getListCar() {
-    axios
-      .get('/api/firebase/getCar')
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.error('error:', error.status, error)
-      })
-  }
-
   const initialCarState = {
-    id: null,
     name: '',
     licensePlate: '',
-    published: false,
   }
   const [car, setCar] = useState(initialCarState)
   const [submitted, setSubmitted] = useState(false)
@@ -34,17 +17,16 @@ export default function AddCar() {
 
   const saveCar = () => {
     var data = {
-      licensePlate: car.name,
-      name: car.licensePlate,
+      name: car.name,
+      licensePlate: car.licensePlate,
     }
     axios
       .post('/api/firebase/add', { data })
-
-      .then((res) => {
-        console.log(res)
+      .then((e) => {
+        window.location.reload(true)
       })
-      .catch((e) => {
-        console.log(e)
+      .catch((err) => {
+        console.log(err)
       })
   }
 

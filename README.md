@@ -2,12 +2,4 @@
 
 ## secret
 
-    SA_EMAIL
-    GOOGLE_APPLICATION_CREDENTIALS
-    PROJECT_ID
-    SERVICE_NAME
-    RUN_REGION
-    
-    DOCKER_USERNAME
-    DOCKER_PASSWORD
-    DOCKER_REPO
+    GOOGLE_APPLICATION_CREDENTIALS=$HOME/Downloads/artisan-playground-firebase-adminsdk-rktce-3369f2cb29.json npm run server

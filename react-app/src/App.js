@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React from 'react'
 import Radium, { StyleRoot } from 'radium'
-
-import logo from './logo.svg'
-
 import './App.css'
-import AddCar from './components/AddCar/AddCar'
+import AddCar from './components/AddCar'
+import ListCar from './components/ListCar'
 
 function App() {
   // useEffect(() => {
@@ -28,6 +25,9 @@ function App() {
       <div className="App">
         <h1>Please Add Your Car. </h1>
         <AddCar />
+      </div>
+      <div>
+        <ListCar />
       </div>
     </StyleRoot>
     // <div className="App">

@@ -1,5 +1,9 @@
 const request = require('request')
+var moment = require('moment')
+var randomstring = require('randomstring')
+const fs = require('fs')
 const line = require('@line/bot-sdk')
+const imageDir = 'images/'
 
 const lineToken = {
   channelAccessToken: process.env.channelAccessToken || 'fixme',
@@ -51,7 +55,14 @@ const handleImageEvent = (event) => {
       const messageSend = [msg]
       const string_data = body.toString('base64')
       messageSend.push(msg)
-      console.log(string_data)
+      const dataUri = string_data
+      const data = dataUri.replace(/^data:image\/\w+;base64,/, '')
+      const buf = new Buffer(data, 'base64')
+
+      let imageName = moment(new Date()).format('YYYY-MM-DD_HH_MM_SS_SSS')
+      imageName += randomstring.generate(4) + '.png'
+
+      fs.writeFileSync(imageDir + imageName, buf)
       return client.replyMessage(event.replyToken, { type: 'text', text: 'OK :)' })
     })
 
