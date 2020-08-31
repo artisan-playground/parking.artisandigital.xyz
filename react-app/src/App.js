@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-
-import logo from './logo.svg'
-
+import React from 'react'
 import './App.css'
 import AddCar from './components/AddCar'
 import ListCar from './components/ListCar'
