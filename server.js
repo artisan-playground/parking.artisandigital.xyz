@@ -34,6 +34,33 @@ app.get('/api/firebase/random', async (req, res) => {
   await docRef1.set({ hello: `world: ${new Date().getTime()}` })
   res.status(200).send('firebase !')
 })
+
+//List Car
+var dataArr = []
+app.get('/api/firebase/getCar', async (req, res) => {
+  db.collection('User')
+    .get()
+    .then((querySnapshot) => {
+      dataArr = []
+      querySnapshot.forEach((doc) => {
+        dataArr.push({
+          id: doc.id,
+          data: doc.data(),
+        })
+      })
+      res.status(200).send(dataArr)
+    })
+})
+
+//Add Car
+app.post('/api/firebase/add', (req, res) => {
+  let docRef1 = db.collection(`User`).add({
+    name: `${req.body.data.name}`,
+    licensePlate: `${req.body.data.licensePlate}`,
+  })
+  res.status(200).send('Success')
+})
+
 app.get('/api', (req, res) => {
   res.status(200).send(`Welcome to webapp-starter api v${version}`)
 })
