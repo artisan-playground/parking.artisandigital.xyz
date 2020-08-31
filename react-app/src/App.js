@@ -1,6 +1,7 @@
 import React from 'react'
+import Radium, { StyleRoot } from 'radium'
 import './App.css'
-import AddCar from './components/AddCar'
+import AddCar from './components/AddCar/AddCar'
 import ListCar from './components/ListCar'
 
 function App() {
@@ -20,12 +21,15 @@ function App() {
   // }
 
   return (
-    <div>
-      <AddCar />
+    <StyleRoot>
+      <div className="App">
+        <h1>Please Add Your Car. </h1>
+        <AddCar />
+      </div>
       <div>
         <ListCar />
       </div>
-    </div>
+    </StyleRoot>
     // <div className="App">
     //   <header className="App-header">
     //     <img src={logo} className="App-logo" alt="logo" />
@@ -34,4 +38,4 @@ function App() {
   )
 }
 
-export default App
+export default Radium(App)
