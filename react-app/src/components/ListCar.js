@@ -19,6 +19,7 @@ export default function CarsList() {
         console.error('error:', error.status, error)
       })
   }
+
   return (
     <div>
       <div>
@@ -29,8 +30,8 @@ export default function CarsList() {
               <li key={index}>
                 <p>
                   {index + 1} ชื่อเจ้าของรถ {car.data.name}{' '}
-                </p>
                 เลขทะเบียนรถ {car.data.licensePlate}
+                </p>
               </li>
             ))}
         </ul>
