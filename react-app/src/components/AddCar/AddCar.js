@@ -7,6 +7,7 @@ export default function AddCar() {
   const initialCarState = {
     name: '',
     licensePlate: '',
+    // image: null,
   }
   const [car, setCar] = useState(initialCarState)
   const [submitted, setSubmitted] = useState(false)
@@ -20,7 +21,10 @@ export default function AddCar() {
     var data = {
       name: car.name,
       licensePlate: car.licensePlate,
+      img: car.image,
     }
+    console.log(data)
+
     axios
       .post('/api/firebase/add', { data })
       .then((e) => {
@@ -41,6 +45,9 @@ export default function AddCar() {
       width: '120px',
     },
   }
+  // const onChangeHandler = (event) => {
+  //   setCar({ ...car, image: event.target.files[0] })
+  // }
 
   return (
     <div className="page" style={style}>
@@ -74,6 +81,10 @@ export default function AddCar() {
               name="licensePlate"
             />
           </div>
+          {/* <div>
+            <label htmlFor="licensePlate">images</label>
+            <input type="file" id="file" required onChange={onChangeHandler} name="image" />
+          </div> */}
 
           <Button type="primary" onClick={saveCar}>
             Submit
