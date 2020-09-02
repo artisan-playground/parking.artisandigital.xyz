@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Button } from 'antd'
 import './AddCar.css'
 
 export default function AddCar() {
@@ -74,7 +75,9 @@ export default function AddCar() {
             />
           </div>
 
-          <button onClick={saveCar}>Submit</button>
+          <Button type="primary" onClick={saveCar}>
+            Submit
+          </Button>
         </div>
       )}
     </div>
