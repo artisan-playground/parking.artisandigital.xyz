@@ -65,13 +65,12 @@ const handleImageEvent = (event) => {
       imageName += randomstring.generate(4) + '.png'
 
       fs.writeFileSync(imageDir + imageName, buf)
-
       response = vision_client.annotate_image({
-        image: { source: { image_uri: imageDir + imageName } },
+        image: { source: { image_uri: buf } },
         features: [
-          { type: vision_client.enums.Feature.Type.FACE_DETECTION },
-          { type: vision_client.enums.Feature.Type.TEXT_DETECTION },
-          { type: vision_client.enums.Feature.Type.OBJECT_LOCALIZATION },
+          { type: vision_client.FACE_DETECTION },
+          { type: vision_client.TEXT_DETECTION },
+          { type: vision_client.OBJECT_LOCALIZATION },
         ],
       })
       lo_annotations = response.localized_object_annotations
