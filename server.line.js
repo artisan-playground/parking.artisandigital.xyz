@@ -71,12 +71,16 @@ const handleImageEvent = (event) => {
       }
 
       const [result] = await vision_client.objectLocalization(request)
+      const texts = result.textAnnotations
       const objects = result.localizedObjectAnnotations
       objects.forEach((object) => {
         console.log(`Name: ${object.name}`)
         console.log(`Confidence: ${object.score}`)
         const vertices = object.boundingPoly.normalizedVertices
         vertices.forEach((v) => console.log(`x: ${v.x}, y:${v.y}`))
+      })
+      texts.forEach((object) => {
+        console.log(`text: ${object}`)
       })
       return line_client.replyMessage(event.replyToken, {
         type: 'text',
