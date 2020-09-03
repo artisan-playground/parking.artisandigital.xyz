@@ -10,8 +10,9 @@ const lineToken = {
   channelSecret: process.env.channelSecret || 'fixme',
 }
 
-const client = new line.Client(lineToken)
-
+const line_client = new line.Client(lineToken)
+const vision = require('@google-cloud/vision')
+const vision_client = new vision.ImageAnnotatorClient()
 const fn = {}
 
 // app.get('/image', function (req, res) {
@@ -25,7 +26,7 @@ fn.webhook = (req, res) =>
 const handleEvent = (event) => {
   console.log(event)
   if (event.type === 'message' && event.message.type === 'text') {
-    return Promise.resolve(null)
+    return Promise.resolve(event.message.text)
     handleMessageEvent(event)
   } else if (event.type === 'message' && event.message.type === 'image') {
     handleImageEvent(event)
@@ -36,8 +37,9 @@ const handleEvent = (event) => {
 
 const handleImageEvent = (event) => {
   var message = event.message
+  console.log(message)
   var chunks = []
-  client.getMessageContent(message.id).then((stream) => {
+  line_client.getMessageContent(message.id).then((stream) => {
     stream.on('data', (chunk) => {
       chunks.push(chunk)
       // console.log(chunks);
@@ -63,7 +65,30 @@ const handleImageEvent = (event) => {
       imageName += randomstring.generate(4) + '.png'
 
       fs.writeFileSync(imageDir + imageName, buf)
-      return client.replyMessage(event.replyToken, { type: 'text', text: 'OK :)' })
+
+      response = vision_client.annotate_image({
+        image: { source: { image_uri: imageDir + imageName } },
+        features: [
+          { type: vision.enums.Feature.Type.FACE_DETECTION },
+          { type: vision.enums.Feature.Type.TEXT_DETECTION },
+          { type: vision.enums.Feature.Type.OBJECT_LOCALIZATION },
+        ],
+      })
+      lo_annotations = response.localized_object_annotations
+      for (obj in lo_annotations) {
+        if (obj.name == 'License plate') {
+          obj.bounding_poly.normalized_vertices.map((x) => LOGGER.debug(x))
+          // vertices = [(int(vertex.x * img_dimensions['width']), int(vertex.y * img_dimensions['height']))
+          //             for vertex in obj.bounding_poly.normalized_vertices]
+          // LOGGER.debug('License plate detected: %s', vertices)
+          // result.append(vertices)
+        }
+      }
+      // return line_client.replyMessage(event.replyToken, { type: 'text', text: 'OK :)' })
+      return line_client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: JSON.stringify(lo_annotations),
+      })
     })
 
     stream.on('error', (err) => {
@@ -81,7 +106,7 @@ function handleMessageEvent(event) {
   if (event.message.text == 'Firer') {
   }
 
-  return client.replyMessage(event.replyToken, msg)
+  return line_client.replyMessage(event.replyToken, msg)
 }
 
 module.exports = fn
