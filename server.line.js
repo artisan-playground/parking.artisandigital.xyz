@@ -65,28 +65,21 @@ const handleImageEvent = (event) => {
       imageName += randomstring.generate(4) + '.png'
 
       fs.writeFileSync(imageDir + imageName, buf)
-      response = vision_client.annotate_image({
-        image: { source: { image_uri: buf } },
-        features: [
-          { type: vision_client.FACE_DETECTION },
-          { type: vision_client.TEXT_DETECTION },
-          { type: vision_client.OBJECT_LOCALIZATION },
-        ],
-      })
-      lo_annotations = response.localized_object_annotations
-      for (obj in lo_annotations) {
-        if (obj.name == 'License plate') {
-          obj.bounding_poly.normalized_vertices.map((x) => LOGGER.debug(x))
-          // vertices = [(int(vertex.x * img_dimensions['width']), int(vertex.y * img_dimensions['height']))
-          //             for vertex in obj.bounding_poly.normalized_vertices]
-          // LOGGER.debug('License plate detected: %s', vertices)
-          // result.append(vertices)
-        }
-      }
-      // return line_client.replyMessage(event.replyToken, { type: 'text', text: 'OK :)' })
+      const request = {
+        image: {content: fs.readFileSync(fileName)},
+      };
+      
+      const [result] = await client.objectLocalization(request);
+      const objects = result.localizedObjectAnnotations;
+      objects.forEach(object => {
+        console.log(`Name: ${object.name}`);
+        console.log(`Confidence: ${object.score}`);
+        const vertices = object.boundingPoly.normalizedVertices;
+        vertices.forEach(v => console.log(`x: ${v.x}, y:${v.y}`));
+      });
       return line_client.replyMessage(event.replyToken, {
         type: 'text',
-        text: JSON.stringify(lo_annotations),
+        text: JSON.stringify(objects),
       })
     })
 
