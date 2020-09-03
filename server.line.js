@@ -67,7 +67,7 @@ const handleImageEvent = (event) => {
       fs.writeFileSync(imageDir + imageName, buf)
       const request = {
         // image: {content: fs.readFileSync(fileName)},
-        image: { content: fs.readFileSync(buf) },
+        image: { content: buf },
       }
 
       const [result] = await vision_client.objectLocalization(request)
