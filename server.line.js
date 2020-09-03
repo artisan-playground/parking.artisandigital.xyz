@@ -66,10 +66,11 @@ const handleImageEvent = (event) => {
 
       fs.writeFileSync(imageDir + imageName, buf)
       const request = {
-        image: {content: fs.readFileSync(fileName)},
+        // image: {content: fs.readFileSync(fileName)},
+        image: {content: fs.readFileSync(buf)},
       };
       
-      const [result] = await client.objectLocalization(request);
+      const [result] = await vision_client.objectLocalization(request);
       const objects = result.localizedObjectAnnotations;
       objects.forEach(object => {
         console.log(`Name: ${object.name}`);
