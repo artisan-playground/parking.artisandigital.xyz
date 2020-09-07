@@ -13,6 +13,7 @@ const lineToken = {
 const line_client = new line.Client(lineToken)
 const vision = require('@google-cloud/vision')
 const vision_client = new vision.ImageAnnotatorClient()
+const clipper = require('image-clipper')
 const fn = {}
 
 // app.get('/image', function (req, res) {
@@ -81,6 +82,17 @@ const handleImageEvent = (event) => {
       })
       texts.forEach((object) => {
         console.log(`text: ${object}`)
+      })
+      //crop
+      const x = vertices[3].x
+      const y = vertices[3].y
+      const width = x - y
+      const height = vertice[2].x - vertice[0].x
+
+      clipper('imageDir + imageName', function () {
+        this.crop(x, y, width, height).toFile(imageDir + '_cropped_' + imageName, function () {
+          console.log('saved!')
+        })
       })
       return line_client.replyMessage(event.replyToken, {
         type: 'text',
