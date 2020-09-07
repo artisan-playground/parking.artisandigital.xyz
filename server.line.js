@@ -91,6 +91,9 @@ const handleImageEvent = (event) => {
       const y = license_vertices[3].y
       const width = x - y
       const height = license_vertices[2].x - license_vertices[0].x
+      clipper.configure({
+        canvas: require('canvas'),
+      })
 
       clipper('imageDir + imageName', function () {
         this.crop(x, y, width, height).toFile(imageDir + '_cropped_' + imageName, function () {
