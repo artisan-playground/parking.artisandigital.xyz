@@ -6,14 +6,15 @@ const line = require('@line/bot-sdk')
 const imageDir = 'images/'
 
 const lineToken = {
-  channelAccessToken: process.env.channelAccessToken || 'fixme',
+  channelAccessToken:
+    'MQvGhHT7HHH4J4ScN89Maoqsl1I7P5YXG+g0Qr8PPevc3aX5al4w3rSx73M75E9US1RzgNanxaF8717zqih05uddlGejMbXgqsdzAI/lhu3sCQidaebwJUowHDtNo9QETB301lm/41i8f+S3dYO6tQdB04t89/1O/w1cDnyilFU=',
   channelSecret: process.env.channelSecret || 'fixme',
 }
 
 const line_client = new line.Client(lineToken)
 const vision = require('@google-cloud/vision')
 const vision_client = new vision.ImageAnnotatorClient()
-const clipper = require('image-clipper')
+const jimp = require('jimp')
 const fn = {}
 
 // app.get('/image', function (req, res) {
@@ -55,9 +56,8 @@ const handleImageEvent = (event) => {
       }
       currentImage = body
 
-      const messageSend = [msg]
+      const messageSend = []
       const string_data = body.toString('base64')
-      messageSend.push(msg)
       const dataUri = string_data
       const data = dataUri.replace(/^data:image\/\w+;base64,/, '')
       const buf = new Buffer(data, 'base64')
@@ -66,43 +66,65 @@ const handleImageEvent = (event) => {
       imageName += randomstring.generate(4) + '.png'
 
       fs.writeFileSync(imageDir + imageName, buf)
-      const request = {
-        // image: {content: fs.readFileSync(fileName)},
+      const object_request = {
         image: { content: buf },
       }
 
-      const [result] = await vision_client.objectLocalization(request)
-      const texts = result.textAnnotations
+      const [result] = await vision_client.objectLocalization(object_request)
       const objects = result.localizedObjectAnnotations
-      objects.forEach((object) => {
-        console.log(`Name: ${object.name}`)
-        console.log(`Confidence: ${object.score}`)
-        const vertices = object.boundingPoly.normalizedVertices
-        vertices.forEach((v) => console.log(`x: ${v.x}, y:${v.y}`))
-      })
-      console.log(`text length: ${texts.length}`)
-      texts.forEach((object) => {
-        console.log(`text: ${object}`)
-      })
-      const license_obj = objects.find((x) => x.name === 'License plate')
-      const license_vertices = license_obj.boundingPoly.normalizedVertices
-      //crop
-      const x = license_vertices[3].x
-      const y = license_vertices[3].y
-      const width = x - y
-      const height = license_vertices[2].x - license_vertices[0].x
-      clipper.configure({
-        canvas: require('canvas'),
-      })
 
-      clipper('imageDir + imageName', function () {
-        this.crop(x, y, width, height).toFile(imageDir + '_cropped_' + imageName, function () {
-          console.log('saved!')
-        })
-      })
-      return line_client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: JSON.stringify(objects),
+      jimp.read(buf, async (err, image) => {
+        if (err) throw err
+        else {
+          //crop
+          const license_obj = objects.find((x) => x.name === 'License plate')
+          const license_vertices = license_obj.boundingPoly.normalizedVertices
+          const x = license_vertices[0].x * image.bitmap.width
+          const y = license_vertices[0].y * image.bitmap.height
+          const w = Math.abs(
+            license_vertices[2].x * image.bitmap.width - license_vertices[0].x * image.bitmap.width
+          )
+          const h = Math.abs(
+            license_vertices[2].y * image.bitmap.height -
+              license_vertices[0].y * image.bitmap.height
+          )
+
+          const buf = await image.crop(x, y, w, h).getBufferAsync(jimp.MIME_PNG)
+          image.write(`${imageDir}/cropped_/${imageName}`)
+          // image.write("")
+          // image.crop(x, y, w, h).write(`${imageDir}/cropped_/${imageName}`)
+          const text_request = {
+            image: {
+              content: buf,
+            },
+            features: [
+              {
+                type: 'DOCUMENT_TEXT_DETECTION',
+              },
+            ],
+            imageContext: {
+              languageHints: ['th'],
+            },
+          }
+
+          const [text_results] = await vision_client.annotateImage(text_request)
+          const texts = text_results.textAnnotations
+
+          // objects.forEach((object) => {
+          //   console.log(`Name: ${object.name}`)
+          //   console.log(`Confidence: ${object.score}`)
+          //   const vertices = object.boundingPoly.normalizedVertices
+          //   vertices.forEach((v) => console.log(`x: ${v.x}, y:${v.y}`))
+          // })
+          console.log(text_results)
+          messageSend.push({
+            type: 'text',
+            text: text_results.textAnnotations[0].description.split('\n').join('\n'),
+          })
+          return line_client.replyMessage(event.replyToken, messageSend)
+        }
+        // .then()
+        // .write(imageDir + 'cropped_' + imageName)
       })
     })
 
