@@ -80,14 +80,17 @@ const handleImageEvent = (event) => {
         const vertices = object.boundingPoly.normalizedVertices
         vertices.forEach((v) => console.log(`x: ${v.x}, y:${v.y}`))
       })
+      console.log(`text length: ${texts.length}`)
       texts.forEach((object) => {
         console.log(`text: ${object}`)
       })
+      const license_obj = objects.find((x) => x.name === 'License plate')
+      const license_vertices = license_obj.boundingPoly.normalizedVertices
       //crop
-      const x = vertices[3].x
-      const y = vertices[3].y
+      const x = license_vertices[3].x
+      const y = license_vertices[3].y
       const width = x - y
-      const height = vertice[2].x - vertice[0].x
+      const height = license_vertices[2].x - license_vertices[0].x
 
       clipper('imageDir + imageName', function () {
         this.crop(x, y, width, height).toFile(imageDir + '_cropped_' + imageName, function () {
