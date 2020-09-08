@@ -6,8 +6,7 @@ const line = require('@line/bot-sdk')
 const imageDir = 'images/'
 
 const lineToken = {
-  channelAccessToken:
-    'MQvGhHT7HHH4J4ScN89Maoqsl1I7P5YXG+g0Qr8PPevc3aX5al4w3rSx73M75E9US1RzgNanxaF8717zqih05uddlGejMbXgqsdzAI/lhu3sCQidaebwJUowHDtNo9QETB301lm/41i8f+S3dYO6tQdB04t89/1O/w1cDnyilFU=',
+  channelAccessToken: process.env.channelAccessToken || 'fixme',
   channelSecret: process.env.channelSecret || 'fixme',
 }
 
