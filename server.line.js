@@ -5,10 +5,13 @@ const fs = require('fs')
 const line = require('@line/bot-sdk')
 const imageDir = 'images/'
 
+let baseUrl = process.env.baseUrl || 'https://xyzzz.artisandigital.tech'
 const lineToken = {
   channelAccessToken: process.env.channelAccessToken || 'fixme',
   channelSecret: process.env.channelSecret || 'fixme',
 }
+
+console.log(lineToken)
 
 const line_client = new line.Client(lineToken)
 const vision = require('@google-cloud/vision')
@@ -116,6 +119,13 @@ const handleImageEvent = (event) => {
           //   vertices.forEach((v) => console.log(`x: ${v.x}, y:${v.y}`))
           // })
           console.log(text_results)
+          messageSend.push({
+            type: 'image',
+            originalContentUrl: `${baseUrl}/cropped_/${imageName}`,
+            previewImageUrl: `${baseUrl}/cropped_/${imageName}`,
+            animated: false,
+          })
+
           messageSend.push({
             type: 'text',
             text: text_results.textAnnotations[0].description.split('\n').join('\n'),
