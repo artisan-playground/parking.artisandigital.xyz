@@ -17,10 +17,6 @@ export default function AddCar() {
     wrapperCol: { span: 16 },
   }
 
-  const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  }
-
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setCar({ ...car, [name]: value })
@@ -37,7 +33,7 @@ export default function AddCar() {
     axios
       .post('/api/firebase/add', { data })
       .then((e) => {
-        //window.location.reload(true)
+        window.location.reload(true)
       })
       .catch((err) => {
         console.log(err)
@@ -98,33 +94,6 @@ export default function AddCar() {
               name="licensePlate"
             />
           </Form.Item>
-          {/* <div>
-            <label htmlFor="Name">Name</label>
-            <input
-              type="text"
-              id="name"
-              required
-              value={car.name}
-              onChange={handleInputChange}
-              name="name"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="licensePlate">licensePlate</label>
-            <input
-              type="text"
-              id="licensePlate"
-              required
-              value={car.licensePlate}
-              onChange={handleInputChange}
-              name="licensePlate"
-            />
-          </div>
-          <div>
-            <label htmlFor="licensePlate">images</label>
-            <input type="file" id="file" required onChange={onChangeHandler} name="image" />
-          </div>  */}
 
           <Button type="primary" htmlType="submit">
             Submit

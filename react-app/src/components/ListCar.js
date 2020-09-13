@@ -21,27 +21,9 @@ export default function CarsList() {
         console.error('error:', error.status, error)
       })
   }
-  const style = {
-    '@media (minWidth: 500px)': {
-      width: '120px',
-    },
-  }
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginRight: 16, marginLeft: 16 }}>
-      {/* <div>
-        <h4>Cars List</h4>
-        <ul>
-          {cars &&
-            cars.map((car, index) => (
-              <li key={index}>
-                <p>
-                  {index + 1} ชื่อเจ้าของรถ {car.data.name}{' '}
-                เลขทะเบียนรถ {car.data.licensePlate}
-                </p>
-              </li>
-            ))}
-        </ul>
-      </div> */}
       <Row gutter={16}>
         {cars &&
           cars.map((car, index) => (
