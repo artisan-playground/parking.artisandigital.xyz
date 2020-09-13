@@ -2,7 +2,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-
+// import * as firebase from '../Firebase'
 const pkg = require('./package.json')
 const version = pkg.version
 
@@ -15,7 +15,6 @@ admin.initializeApp({
 })
 
 //add other middleware
-
 app.use(express.static('react-app/build'))
 app.use(express.static('images'))
 // app.use('/react', express.static('react-app/build'))
@@ -53,11 +52,29 @@ app.get('/api/firebase/getCar', async (req, res) => {
     })
 })
 
+var imgUrl = ''
 //Add Car
-app.post('/api/firebase/add', (req, res) => {
+app.post('/api/firebase/add', async (req, res) => {
+  // try {
+  //   firebase.storage
+  //     .ref(`images/${req.body.data.name}/${req.body.data.image.name}`)
+  //     .putString(imageUrl, 'data_url')
+  //     .then(function (snapshot) {
+  //       firebase.storage
+  //         .ref(`images/${uId}`)
+  //         .child(image.name)
+  //         .getDownloadURL()
+  //         .then((url) => {
+  //           imgUrl = url
+  //         })
+  //     })
+  // } catch (error) {
+  //   console.error(error)
+  // }
   let docRef1 = db.collection(`User`).add({
     name: `${req.body.data.name}`,
     licensePlate: `${req.body.data.licensePlate}`,
+    image: imgUrl,
   })
   res.status(200).send('Success')
 })

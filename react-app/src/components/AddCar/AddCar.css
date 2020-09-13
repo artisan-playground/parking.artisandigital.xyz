@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .page {
   width: 40%;
   margin: 16px auto;

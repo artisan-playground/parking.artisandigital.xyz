@@ -5,7 +5,7 @@ const fs = require('fs')
 const line = require('@line/bot-sdk')
 const imageDir = 'images/'
 
-let baseUrl = process.env.baseUrl || 'https://xyzzz.artisandigital.tech'
+let baseUrl = process.env.baseUrl || 'https://parking.artisandigital.tech'
 const lineToken = {
   channelAccessToken: process.env.channelAccessToken || 'fixme',
   channelSecret: process.env.channelSecret || 'fixme',
