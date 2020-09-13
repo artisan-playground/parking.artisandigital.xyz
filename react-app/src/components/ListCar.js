@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import 'antd/dist/antd.css'
-<<<<<<< Updated upstream
-import { Card, Avatar } from 'antd'
-=======
-import { Card, Avatar } from 'antd';
-
-const { Meta } = Card;
->>>>>>> Stashed changes
+import { Card, Col, Row } from 'antd'
 
 export default function CarsList() {
-  const { Meta } = Card
   const [cars, setCars] = useState([])
 
   useEffect(() => {
@@ -34,8 +27,7 @@ export default function CarsList() {
     },
   }
   return (
-
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', marginRight: 16, marginLeft: 16 }}>
       {/* <div>
         <h4>Cars List</h4>
         <ul>
@@ -50,24 +42,16 @@ export default function CarsList() {
             ))}
         </ul>
       </div> */}
-      {cars &&
-      cars.map((car,index) =>(
-        <Card
-          style={{ width: 300 }}
-          cover={
-            <img
-              alt="example"
-              src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            />
-          }
-        >
-          <Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-            title="Card title"
-            description="This is the description"
-          />
-        </Card>
-      ))}
+      <Row gutter={16}>
+        {cars &&
+          cars.map((car, index) => (
+            <Col span={4} key={index}>
+              <Card title={car.data.name} bordered={true} style={{ marginTop: 16 }}>
+                {car.data.licensePlate}
+              </Card>
+            </Col>
+          ))}
+      </Row>
     </div>
   )
 }

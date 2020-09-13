@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Button } from 'antd'
+import { Button, Form, Input } from 'antd'
 import './AddCar.css'
 
 export default function AddCar() {
@@ -11,6 +11,15 @@ export default function AddCar() {
   }
   const [car, setCar] = useState(initialCarState)
   const [submitted, setSubmitted] = useState(false)
+
+  const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+  }
+
+  const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -28,7 +37,7 @@ export default function AddCar() {
     axios
       .post('/api/firebase/add', { data })
       .then((e) => {
-        window.location.reload(true)
+        //window.location.reload(true)
       })
       .catch((err) => {
         console.log(err)
@@ -40,25 +49,56 @@ export default function AddCar() {
     setSubmitted(false)
   }
 
-  const style = {
-    '@media (minWidth: 500px)': {
-      width: '120px',
-    },
-  }
   // const onChangeHandler = (event) => {
   //   setCar({ ...car, image: event.target.files[0] })
   // }
 
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo)
+  }
+
   return (
-    <div className="page" style={style}>
+    <div className="page">
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
           <button onClick={newCar}>Add</button>
         </div>
       ) : (
-        <div>
-          <div>
+        <Form
+          {...layout}
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={saveCar}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            label="ชื่อเจ้าของรถ"
+            name="name"
+            rules={[{ required: true, message: 'กรุณากรอกชื่อเจ้าของรถ!' }]}
+          >
+            <Input
+              type="text"
+              id="name"
+              value={car.name}
+              onChange={handleInputChange}
+              name="name"
+            />
+          </Form.Item>
+          <Form.Item
+            label="ทะเบียนรถ"
+            name="licensePlate"
+            rules={[{ required: true, message: 'กรุณากรอกทะเบียนรถ!' }]}
+          >
+            <Input
+              type="text"
+              id="licensePlate"
+              value={car.licensePlate}
+              onChange={handleInputChange}
+              name="licensePlate"
+            />
+          </Form.Item>
+          {/* <div>
             <label htmlFor="Name">Name</label>
             <input
               type="text"
@@ -81,15 +121,15 @@ export default function AddCar() {
               name="licensePlate"
             />
           </div>
-          {/* <div>
+          <div>
             <label htmlFor="licensePlate">images</label>
             <input type="file" id="file" required onChange={onChangeHandler} name="image" />
-          </div> */}
+          </div>  */}
 
-          <Button type="primary" onClick={saveCar}>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
-        </div>
+        </Form>
       )}
     </div>
   )
