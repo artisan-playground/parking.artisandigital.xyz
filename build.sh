@@ -12,9 +12,15 @@ pushd "${args[0]}"
 yarn install
 yarn build
 popd
+pwd
 
+if [[ "${args[0]}" = "vue-app" ]]; then
+    echo "vue-app"
+    rm -Rf dist
+    mv -v vue-app/dist dist
+elif [[ "${args[0]}" = "react-app" ]]; then
+    echo "react-app"
+    rm -Rf dist
+    mv -v react-app/build dist
+fi
 
-docker build -t trwfff/parking-artisan .
-# docker push trwfff/parking-artisan
-# docker run --rm -it -p4000:4000 --init trwfff/parking-artisan
-# docker run --rm -it -p4000:4000 trwfff/parking-artisan
